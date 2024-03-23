@@ -25,10 +25,9 @@ const APIForm = ({inputs, handleChange, onSubmit}) => {
                             className="textbook"
                         />
                         <br></br>
-                        <br></br>
                         <p>{inputsInfo[index]}</p>
                     </li>
-                ))}
+                     ))}
             </form>
             <button type="submit" className="button" onClick={onSubmit}>Take that Pic!</button>
         </div>
