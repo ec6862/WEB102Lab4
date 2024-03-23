@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import APIForm from './components/APIForm';
+import Gallery from './components/Gallery';
 
 const ACCESS_KEY = import.meta.env.VITE_APP_ACCESS_KEY;
 
@@ -58,9 +59,27 @@ const App = () => {
     console.log(json);
     if (json.url == null)
       alert("no URL received")
-    else
-      setCurrentImage(json.url)
+    else {
+      setCurrentImage(json.url);
+      setImageGallery([...imageGallery, json.url]);
+      reset();
+    }
   }
+
+  // reset
+  const reset = () => {
+    setInputs({
+      url: '',
+      format: '',
+      no_ads: '',
+      no_cookie_banners: '',
+      width: '',
+      height: '',
+    })
+  }
+
+  // image gallery
+  const [imageGallery, setImageGallery] = useState([]);
 
   return (
     <div className='whole-page'>
@@ -74,6 +93,30 @@ const App = () => {
         }))
       }
       />
+      {currentImage ? (
+        <img 
+          className='screenshot' 
+          src={currentImage} 
+          alt="Screenshot returned"
+        />
+      ) : (
+        <div></div>
+      )}
+      <div className='container'>
+        <h3> Current Query Status: </h3>
+        <p>
+          https://api.apiflash.com/v1/urltoimage?access_key=ACCESS_KEY
+          <br></br>
+          &url={inputs.url} <br></br>
+          &format={inputs.format} <br></br>
+          &width={inputs.width} <br></br>
+          &height={inputs.height} <br></br>
+          &no_cookie_banners={inputs.no_cookie_banners} <br></br>
+          &no_ads={inputs.no_ads} <br></br>
+        </p>
+        <Gallery images={imageGallery}/>
+      </div>
+      <br></br>
     </div>
   )
 }
